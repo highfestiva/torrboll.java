@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Backup Status</title>
+    <link rel="stylesheet" href="/static/main.css" type="text/css">
+</head>
+<body>
+    <div th:each="entry,it: ${data}">
+        <h2 th:text="${entry.key}" />
+    </div>
+</body>
+</html>

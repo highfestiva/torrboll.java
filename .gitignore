@@ -1,0 +1,13 @@
+HELP.md
+.gradle
+application.properties
+*.db
+/build/
+*.jar
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/out/
