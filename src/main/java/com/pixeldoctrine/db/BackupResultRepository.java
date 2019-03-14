@@ -41,7 +41,7 @@ public class BackupResultRepository {
         Statement stmt = connection.createStatement();
         String sql = MessageFormat.format(
                 "SELECT * FROM BACKUP_LOG WHERE TIMESTAMP >= DATE(''NOW'', ''-{0} DAYS'') ORDER BY TIMESTAMP",
-                days);
+                days-1);
         ResultSet rs = stmt.executeQuery(sql);
         List<BackupResult> result = new ArrayList<>();
         SimpleDateFormat timestampFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
@@ -24,7 +27,7 @@ public class StatusController {
     private BackupResultRepository resultRepository;
 
     @GetMapping("/status")
-    public String greeting(@RequestParam(name="oks", required=false, defaultValue="40") int days, Model model)
+    public String greeting(@RequestParam(name="days", required=false, defaultValue="40") int days, Model model)
             throws SQLException, ParseException {
         List<BackupResult> results = resultRepository.load(days);
         List<String> longDates = new ArrayList<>();
