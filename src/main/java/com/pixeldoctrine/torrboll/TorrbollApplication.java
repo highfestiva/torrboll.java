@@ -11,7 +11,7 @@ import static org.springframework.boot.SpringApplication.run;
 public class TorrbollApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = run(TorrbollApplication.class, args);
-		//ScheduledTasks scheduledTasks = ctx.getBean(ScheduledTasks.class);
-		//scheduledTasks.processEmails();
+		ScheduledTasks scheduledTasks = ctx.getBean(ScheduledTasks.class);
+		scheduledTasks.processEmails();
 	}
 }

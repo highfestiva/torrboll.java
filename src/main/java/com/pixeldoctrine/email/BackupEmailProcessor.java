@@ -36,7 +36,7 @@ public class BackupEmailProcessor {
 		Store imap = null;
 		try {
 			imap = imapConnect();
-			processAll(imap);
+			return processAll(imap);
 		} catch (MessagingException e) {
 			log.error("Crash when processing e-mails.", e);
 		} finally {
@@ -52,7 +52,7 @@ public class BackupEmailProcessor {
 		return imap;
 	}
 
-	private void processAll(Store imap) throws MessagingException {
+	private int processAll(Store imap) throws MessagingException {
 		Folder inbox = imap.getFolder("INBOX");
 		inbox.open(Folder.READ_WRITE);
 		Message[] messages = inbox.getMessages();
@@ -73,21 +73,21 @@ public class BackupEmailProcessor {
 			}
 		}
 		// move all processed messages
-		/*if (!handledMessages.isEmpty()) {
+		if (!handledMessages.isEmpty()) {
 			Folder processed = imap.getFolder("Processed");
-			Message[] msgs = (Message[]) handledMessages.toArray();
+			Message[] msgs = handledMessages.toArray(new Message[0]);
 			inbox.copyMessages(msgs, processed);
 			inbox.setFlags(msgs, new Flags(Flags.Flag.DELETED), true);
 			inbox.expunge();
-		}*/
+		}
 		inbox.close();
+		return handledMessages.size();
 	}
 
 	private void imapDisconnect(Store imap) {
 		if (imap != null) {
 			try {
 				imap.close();
-				imap = null;
 			} catch (MessagingException e) {
 				log.error("Unable to close IMAP connection.", e);
 			}

@@ -3,11 +3,33 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Backup Status</title>
-    <link rel="stylesheet" href="/static/main.css" type="text/css">
+    <link rel="stylesheet" href="/main.css" type="text/css">
 </head>
 <body>
-    <div th:each="entry,it: ${data}">
-        <h2 th:text="${entry.key}" />
-    </div>
+    <th:block th:each="serviceEntry: ${data}">
+        <h2 th:text="${serviceEntry.key}" />
+        <table>
+            <tr><th></th><th></th><th></th>
+            <th:block th:each="longDate: ${longDates}">
+                <th th:text="${longDate}" th:attr="colspan=${#strings.isEmpty(longDate)}? null:'3', class=${#strings.isEmpty(longDate)}? null:'month'"/>
+            </th:block>
+            </tr>
+            <tr><th class="title">Client</th><th class="title">System</th><th class="title">Job</th>
+                <th:block th:each="shortDate: ${shortDates}">
+                    <th th:text="${shortDate}"/>
+                </th:block>
+            </tr>
+
+            <th:block th:each="jobEntry: ${serviceEntry.value}">
+            <tr><td th:text="${jobEntry.value.result.client}"/>
+                <td th:text="${jobEntry.value.result.system}"/>
+                <td th:text="${jobEntry.value.result.job}"/>
+                <th:block th:each="ok: ${jobEntry.value.oks}">
+                    <td th:attr="class=${ok? 'g':'r'}"/>
+                </th:block>
+            </tr>
+            </th:block>
+        </table>
+    </th:block>
 </body>
 </html>

@@ -33,7 +33,7 @@ public class BackupResultRepository {
         statement.setString(5, result.getJob());
         statement.setInt(6, result.getPercent());
         statement.executeUpdate();
-        connection.commit();
+        connection.close();
     }
 
     public List<BackupResult> load(int days) throws SQLException, ParseException {
