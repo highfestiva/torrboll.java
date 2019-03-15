@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-class ScheduledTasks {
+public class ScheduledTasks {
 
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
@@ -18,7 +18,7 @@ class ScheduledTasks {
     private BackupEmailProcessor processor;
 
     @Scheduled(cron = "0 0 11 * * *") // 11:00 every day
-    void processEmails() {
+    public void processEmails() {
         log.info("Processing e-mails at {}.", AppConfiguration.DATE_FORMAT.format(new Date()));
 		int numCataloguedEmails = processor.process();
         log.info("{} e-mails catalogued.", numCataloguedEmails);

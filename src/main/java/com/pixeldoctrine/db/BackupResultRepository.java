@@ -1,6 +1,8 @@
 package com.pixeldoctrine.db;
 
 import com.pixeldoctrine.entity.BackupResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,8 +18,35 @@ import java.util.List;
 @Repository
 public class BackupResultRepository {
 
+    private static final Logger log = LoggerFactory.getLogger(BackupResultRepository.class);
+
     @Autowired
     private DataSource dataSource;
+
+    public void init() {
+        try {
+            Connection connection = dataSource.getConnection();
+            try {
+                Statement stmt = connection.createStatement();
+                stmt.executeQuery("SELECT COUNT(*) FROM BACKUP_LOG");
+            } catch (SQLException e) {
+                Statement stmt = connection.createStatement();
+                stmt.executeUpdate(
+                        "CREATE TABLE BACKUP_LOG(" +
+                                "ID INTEGER PRIMARY KEY," +
+                                "TIMESTAMP  DATETIME            NOT NULL," +
+                                "SERVICE    CHAR(20)            NOT NULL," +
+                                "CLIENT     CHAR(40)            NOT NULL," +
+                                "SYSTEM     CHAR(40)            NOT NULL," +
+                                "JOB        CHAR(20)            NOT NULL," +
+                                "PERC       INT                 NOT NULL)");
+                stmt.executeUpdate("CREATE UNIQUE INDEX idx_jobs ON BACKUP_LOG (TIMESTAMP, SERVICE, CLIENT, SYSTEM, JOB)");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            log.error("Unable to init DB:", e);
+        }
+    }
 
     public void save(BackupResult result) throws SQLException {
         Connection connection = dataSource.getConnection();
@@ -40,7 +69,7 @@ public class BackupResultRepository {
         Connection connection = dataSource.getConnection();
         Statement stmt = connection.createStatement();
         String sql = MessageFormat.format(
-                "SELECT * FROM BACKUP_LOG WHERE TIMESTAMP >= DATE(''NOW'', ''-{0} DAYS'') ORDER BY TIMESTAMP",
+                "SELECT * FROM BACKUP_LOG WHERE TIMESTAMP >= DATE(''NOW'', ''START OF DAY'', ''-{0} DAYS'') ORDER BY TIMESTAMP",
                 days-1);
         ResultSet rs = stmt.executeQuery(sql);
         List<BackupResult> result = new ArrayList<>();
