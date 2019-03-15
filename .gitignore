@@ -3,6 +3,7 @@ HELP.md
 application.properties
 *.db
 /build/
+/win-service-wrapper/*
 *.jar
 
 ### IntelliJ IDEA ###
