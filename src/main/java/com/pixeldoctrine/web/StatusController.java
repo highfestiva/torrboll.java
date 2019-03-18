@@ -1,20 +1,23 @@
 package com.pixeldoctrine.web;
 
 import com.pixeldoctrine.db.BackupResultRepository;
+import com.pixeldoctrine.email.BackupEmailProcessor;
 import com.pixeldoctrine.entity.BackupResult;
+import com.pixeldoctrine.torrboll.AppConfiguration;
+import com.pixeldoctrine.torrboll.ScheduledTasks;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
@@ -23,11 +26,16 @@ import static java.util.stream.Collectors.toMap;
 @Controller
 public class StatusController {
 
+    private static final Logger log = LoggerFactory.getLogger(StatusController.class);
+
     @Autowired
     private BackupResultRepository resultRepository;
 
+    @Autowired
+    private BackupEmailProcessor processor;
+
     @GetMapping("/status")
-    public String greeting(@RequestParam(name="days", required=false, defaultValue="40") int days, Model model)
+    public String status(@RequestParam(name="days", required=false, defaultValue="40") int days, Model model)
             throws SQLException, ParseException {
         List<BackupResult> results = resultRepository.load(days);
         List<String> longDates = new ArrayList<>();
@@ -37,6 +45,20 @@ public class StatusController {
         model.addAttribute("longDates", longDates);
         model.addAttribute("shortDates", shortDates);
         return "status";
+    }
+
+    @GetMapping("/force-run")
+    public String forceRunPage() {
+        return "forceRunPage";
+    }
+
+    @PostMapping("/force-run")
+    public String forceRunExecute(Model model) {
+        log.info("Forced e-mails at {}.", AppConfiguration.DATE_FORMAT.format(new Date()));
+        int numCataloguedEmails = processor.process();
+        log.info("{} e-mails catalogued.", numCataloguedEmails);
+        model.addAttribute("eMailCount", numCataloguedEmails);
+        return "forceRunResult";
     }
 
     private Map<String, Map<String, JobDays>> transformToTable(List<BackupResult> results, List<String> longDates, List<String> shortDates) {
