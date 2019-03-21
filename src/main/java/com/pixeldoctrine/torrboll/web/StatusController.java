@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
@@ -53,7 +57,7 @@ public class StatusController {
 
     @PostMapping("/force-run")
     public String forceRunExecute(Model model) {
-        log.info("Forced e-mails at {}.", AppConfiguration.DATE_FORMAT.format(new Date()));
+        log.info("Forced e-mails at {}.", AppConfiguration.TIME_FORMAT.format(ZonedDateTime.now()));
         int numCataloguedEmails = processor.process();
         log.info("{} e-mails catalogued.", numCataloguedEmails);
         model.addAttribute("eMailCount", numCataloguedEmails);

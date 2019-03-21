@@ -1,8 +1,8 @@
 package com.pixeldoctrine.torrboll.email;
 
+import com.pixeldoctrine.parser.EmailParser;
 import com.pixeldoctrine.torrboll.db.BackupResultRepository;
 import com.pixeldoctrine.torrboll.entity.BackupResult;
-import com.pixeldoctrine.parser.EmailParser;
 import com.sun.mail.smtp.SMTPTransport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

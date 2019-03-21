@@ -1,7 +1,7 @@
 package com.pixeldoctrine.torrboll.main;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 public class AppConfiguration {
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
+    public static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 }

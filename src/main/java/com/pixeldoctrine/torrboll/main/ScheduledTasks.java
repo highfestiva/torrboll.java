@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 @Component
 public class ScheduledTasks {
@@ -19,7 +19,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0 11 * * *") // 11:00 every day
     public void processEmails() {
-        log.info("Processing e-mails at {}.", AppConfiguration.DATE_FORMAT.format(new Date()));
+        log.info("Processing e-mails at {}.", AppConfiguration.TIME_FORMAT.format(ZonedDateTime.now()));
 		int numCataloguedEmails = processor.process();
         log.info("{} e-mails catalogued.", numCataloguedEmails);
     }
