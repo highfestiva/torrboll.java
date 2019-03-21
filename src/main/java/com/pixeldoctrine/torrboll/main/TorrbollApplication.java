@@ -1,6 +1,6 @@
-package com.pixeldoctrine.torrboll;
+package com.pixeldoctrine.torrboll.main;
 
-import com.pixeldoctrine.db.BackupResultRepository;
+import com.pixeldoctrine.torrboll.db.BackupResultRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;

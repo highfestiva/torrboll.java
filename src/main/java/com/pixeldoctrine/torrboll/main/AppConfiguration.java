@@ -1,4 +1,4 @@
-package com.pixeldoctrine.torrboll;
+package com.pixeldoctrine.torrboll.main;
 
 import java.text.SimpleDateFormat;
 

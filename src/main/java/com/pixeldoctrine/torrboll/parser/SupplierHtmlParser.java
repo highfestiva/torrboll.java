@@ -1,6 +1,6 @@
 package com.pixeldoctrine.parser;
 
-import com.pixeldoctrine.entity.BackupResult;
+import com.pixeldoctrine.torrboll.entity.BackupResult;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

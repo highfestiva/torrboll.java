@@ -1,6 +1,6 @@
-package com.pixeldoctrine.db;
+package com.pixeldoctrine.torrboll.db;
 
-import com.pixeldoctrine.entity.BackupResult;
+import com.pixeldoctrine.torrboll.entity.BackupResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

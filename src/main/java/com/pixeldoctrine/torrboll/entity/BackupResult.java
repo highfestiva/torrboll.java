@@ -1,4 +1,4 @@
-package com.pixeldoctrine.entity;
+package com.pixeldoctrine.torrboll.entity;
 
 import javax.mail.Message;
 import java.util.Date;

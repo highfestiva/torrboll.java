@@ -1,6 +1,6 @@
-package com.pixeldoctrine.torrboll;
+package com.pixeldoctrine.torrboll.main;
 
-import com.pixeldoctrine.email.BackupEmailProcessor;
+import com.pixeldoctrine.torrboll.email.BackupEmailProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

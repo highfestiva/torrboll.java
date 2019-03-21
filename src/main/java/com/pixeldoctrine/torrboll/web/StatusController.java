@@ -1,10 +1,9 @@
-package com.pixeldoctrine.web;
+package com.pixeldoctrine.torrboll.web;
 
-import com.pixeldoctrine.db.BackupResultRepository;
-import com.pixeldoctrine.email.BackupEmailProcessor;
-import com.pixeldoctrine.entity.BackupResult;
-import com.pixeldoctrine.torrboll.AppConfiguration;
-import com.pixeldoctrine.torrboll.ScheduledTasks;
+import com.pixeldoctrine.torrboll.db.BackupResultRepository;
+import com.pixeldoctrine.torrboll.email.BackupEmailProcessor;
+import com.pixeldoctrine.torrboll.entity.BackupResult;
+import com.pixeldoctrine.torrboll.main.AppConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
