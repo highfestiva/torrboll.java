@@ -1,6 +1,6 @@
 package com.pixeldoctrine.torrboll.email;
 
-import com.pixeldoctrine.parser.EmailParser;
+import com.pixeldoctrine.torrboll.parser.EmailParser;
 import com.pixeldoctrine.torrboll.db.BackupResultRepository;
 import com.pixeldoctrine.torrboll.entity.BackupResult;
 import com.sun.mail.smtp.SMTPTransport;
@@ -108,7 +108,8 @@ public class BackupEmailProcessor {
 			String info = String.join("\r\n", failedJobs.stream()
 					.map(j -> j.getClient()+" "+j.getSystem()+" ("+j.getJob()+")")
 					.collect(toList()));
-			String url = String.format("http://%s:5009/status", InetAddress.getLocalHost().getHostName());
+			//String url = String.format("http://%s:5009/status", InetAddress.getLocalHost().getHostName());
+			String url = "http://kantoor.bjorkit.nl:5009/status";
 			String ticket = "Failed backups:\n\n" + info + String.format("\n\nMore info here: %s\n", url);
 			// smtp
 			Properties props = System.getProperties();

@@ -68,7 +68,7 @@ public class StatusController {
         // gather unique oks
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         List<String> uniqueDays = results.stream()
-                .map(r -> dateFormatter.format(r.getDate()))
+                .map(r -> dateFormatter.format(r.getYesterdaysDate()))
                 .distinct()
                 .sorted()
                 .collect(toList());
@@ -104,7 +104,7 @@ public class StatusController {
             data.put(service, jobDays);
             for (BackupResult r: serviceJobs) {
                 String key = r.getClient() + ' ' + r.getSystem() + ' ' + r.getJob();
-                String day = dateFormatter.format(r.getDate());
+                String day = dateFormatter.format(r.getYesterdaysDate());
                 jobDays.get(key).setOk(r, dayToIndex.get(day), r.getPercent()==100);
             }
         }
@@ -112,16 +112,16 @@ public class StatusController {
     }
 
     private static class JobDays {
-        private boolean[] oks;
+        private Boolean[] oks;
         private BackupResult result;
         JobDays(List<String> dates) {
-            this.oks = new boolean[dates.size()];
+            this.oks = new Boolean[dates.size()];
         }
         void setOk(BackupResult r, int index, boolean ok) {
             result = r;
             oks[index] = ok;
         }
-        public boolean[] getOks() {
+        public Boolean[] getOks() {
             return oks;
         }
         public BackupResult getResult() {

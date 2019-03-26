@@ -4,6 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Backup Status</title>
     <link rel="stylesheet" href="/main.css" type="text/css">
+    <script>
+        setInterval(function(){window.location.reload(true);}, 60*60*1000);
+    </script>
 </head>
 <body>
     <th:block th:each="serviceEntry: ${data}">
@@ -25,7 +28,7 @@
                 <td th:text="${jobEntry.value.result.system}"/>
                 <td th:text="${jobEntry.value.result.job}"/>
                 <th:block th:each="ok: ${jobEntry.value.oks}">
-                    <td th:attr="class=${ok? 'g':'r'}"/>
+                    <td th:attr="class=${ok!= null? (ok? 'g':'r') : ''}"/>
                 </th:block>
             </tr>
             </th:block>

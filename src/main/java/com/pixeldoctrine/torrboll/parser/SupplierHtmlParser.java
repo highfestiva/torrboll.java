@@ -1,4 +1,4 @@
-package com.pixeldoctrine.parser;
+package com.pixeldoctrine.torrboll.parser;
 
 import com.pixeldoctrine.torrboll.entity.BackupResult;
 

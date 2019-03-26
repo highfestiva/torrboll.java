@@ -1,6 +1,7 @@
 package com.pixeldoctrine.torrboll.entity;
 
 import javax.mail.Message;
+import java.util.Calendar;
 import java.util.Date;
 
 public class BackupResult {
@@ -25,6 +26,14 @@ public class BackupResult {
 
     public Date getDate() {
         return date;
+    }
+
+    public Date getYesterdaysDate() {
+        Date now = getDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.add(Calendar.DATE, -1);
+        return cal.getTime();
     }
 
     public String getService() {
