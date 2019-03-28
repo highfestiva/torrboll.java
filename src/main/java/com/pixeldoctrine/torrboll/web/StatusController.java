@@ -95,7 +95,7 @@ public class StatusController {
                     .filter(r -> r.getService().equals(service))
                     .collect(toList());
             Map<String, JobDays> jobDays = serviceJobs.stream()
-                    .map(r -> r.getClient()+' '+r.getSystem()+' '+r.getJob())
+                    .map(r -> r.getClient().toLowerCase()+' '+r.getSystem().toLowerCase()+' '+r.getJob().toLowerCase())
                     .distinct()
                     .sorted()
                     .collect(LinkedHashMap::new,
@@ -103,7 +103,7 @@ public class StatusController {
                             Map::putAll);
             data.put(service, jobDays);
             for (BackupResult r: serviceJobs) {
-                String key = r.getClient() + ' ' + r.getSystem() + ' ' + r.getJob();
+                String key = r.getClient().toLowerCase() + ' ' + r.getSystem().toLowerCase() + ' ' + r.getJob().toLowerCase();
                 String day = dateFormatter.format(r.getYesterdaysDate());
                 jobDays.get(key).setOk(r, dayToIndex.get(day), r.getPercent()==100);
             }
