@@ -30,14 +30,26 @@ public class HyperVParser implements SupplierHtmlParser {
         Element body = emailParser.getHtmlBody(subject, msg);
         String[] clientWords = body.select("h2").first().text().split("'");
         String client = clientWords[1];
-        Element systemRow = body.select("table").first();
-        Elements trs = systemRow.select("tr");
-        for (Element tr: trs.subList(1, trs.size())) {
-            Elements tds = tr.select("td");
-            String system = tds.get(0).text().trim();
-            int percent = tds.get(2).text().equals("Operating normally")? 100 : 0;
-            result.add(new BackupResult(date, "Hyper-V", client, system, system, percent, msg));
-        }
+        Elements systemRows = body.select("table");
+		for (Element systemRow: systemRows) {
+			Elements trs = systemRow.select("tr");
+			if (trs.size() < 2) {
+				continue;
+			}
+			Elements ths = trs.get(0).select("th");
+			if (ths.size() < 4) {
+				continue;
+			}
+			if (!ths.get(2).text().equals("Operational Status")) {
+				continue;
+			}
+			for (Element tr: trs.subList(1, trs.size())) {
+				Elements tds = tr.select("td");
+				String system = tds.get(0).text().trim();
+				int percent = tds.get(2).text().equals("Operating normally")? 100 : 0;
+				result.add(new BackupResult(date, "Hyper-V", client, system, system, percent, msg));
+			}
+		}
         return result;
     }
 }
