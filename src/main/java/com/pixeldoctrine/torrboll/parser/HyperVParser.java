@@ -40,13 +40,13 @@ public class HyperVParser implements SupplierHtmlParser {
 			if (ths.size() < 4) {
 				continue;
 			}
-			if (!ths.get(2).text().equals("Health")) {
+			if (!ths.get(2).text().trim().equals("Health")) {
 				continue;
 			}
 			for (Element tr: trs.subList(1, trs.size())) {
 				Elements tds = tr.select("td");
 				String system = tds.get(0).text().trim();
-				int percent = tds.get(2).text().equals("Normal")? 100 : 0;
+				int percent = tds.get(2).text().trim().equals("Normal")? 100 : 0;
 				result.add(new BackupResult(date, "Hyper-V", client, system, system, percent, msg));
 			}
 		}
