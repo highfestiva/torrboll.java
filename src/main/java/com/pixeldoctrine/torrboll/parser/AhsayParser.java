@@ -20,15 +20,16 @@ public class AhsayParser implements SupplierHtmlParser {
 
     @Override
     public boolean match(String subject) {
-        return subject.contains("Backup Summary:");
+        return subject.contains("Backup Samenvatting:");
     }
 
     @Override
     public List<BackupResult> parse(Date date, String subject, Message msg) throws IOException, MessagingException {
-        String[] subjectWords = subject.split("Backup Summary:");
+        String[] subjectWords = subject.split("Backup Samenvatting:");
         subject = subjectWords[subjectWords.length-1].trim();
         subjectWords = emailParser.splitSubject(subject);
-        String job = subjectWords[0];
+        String[] words = subjectWords[0].split(" ");
+        String job = words[words.length-1];
         String client = subjectWords[1];
         List<BackupResult> result = new ArrayList<>();
         Element body = emailParser.getHtmlBody(subject, msg);
