@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.pixeldoctrine'
-version = '0.1'
+version = '0.2'
 sourceCompatibility = '1.8'
 
 repositories {

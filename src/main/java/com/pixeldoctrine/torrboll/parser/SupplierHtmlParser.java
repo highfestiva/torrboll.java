@@ -9,6 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface SupplierHtmlParser {
-    boolean match(String subject);
+    boolean match(String subject, Message msg) throws IOException, MessagingException;
     List<BackupResult> parse(Date date, String subject, Message msg) throws IOException, MessagingException;
 }

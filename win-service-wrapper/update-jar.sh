@@ -19,7 +19,7 @@ cd BOOT-INF/classes/
 cat application.properties | sed 's/src\/main\///' > app.props
 mv app.props application.properties
 cd ../..
-jar --update --file torrboll-0.1.jar BOOT-INF/classes/application.properties
+jar --update --file torrboll-0.2.jar BOOT-INF/classes/application.properties
 
 # compress and cleanup
 mv $JAR ..

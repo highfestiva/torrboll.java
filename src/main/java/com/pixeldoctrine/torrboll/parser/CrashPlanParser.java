@@ -17,18 +17,15 @@ import java.util.List;
 @Component
 public class CrashPlanParser implements SupplierHtmlParser {
 
-    @Autowired
-    private EmailParser emailParser;
-
     @Override
-    public boolean match(String subject) {
+    public boolean match(String subject, Message msg) throws IOException, MessagingException {
         return subject.contains("Code42") && subject.contains("Backup Report");
     }
 
     @Override
     public List<BackupResult> parse(Date date, String subject, Message msg) throws IOException, MessagingException {
         List<BackupResult> result = new ArrayList<>();
-        Element body = emailParser.getHtmlBody(subject, msg);
+        Element body = EmailParser.getHtmlBody(subject, msg);
         for (Element systemRow: body.select("tr.lastForComputer")) {
             Elements tds = systemRow.select("td");
             String system = tds.get(0).text().split("→")[0].trim();

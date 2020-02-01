@@ -16,18 +16,15 @@ import java.util.List;
 @Component
 public class HyperVParser implements SupplierHtmlParser {
 
-    @Autowired
-    private EmailParser emailParser;
-
     @Override
-    public boolean match(String subject) {
+    public boolean match(String subject, Message msg) throws IOException, MessagingException {
         return subject.contains("Hyper-V Server Report");
     }
 
     @Override
     public List<BackupResult> parse(Date date, String subject, Message msg) throws IOException, MessagingException {
         List<BackupResult> result = new ArrayList<>();
-        Element body = emailParser.getHtmlBody(subject, msg);
+        Element body = EmailParser.getHtmlBody(subject, msg);
         String[] clientWords = body.select("h2").first().text().split("'");
         String client = clientWords[1];
         Elements systemRows = body.select("table");

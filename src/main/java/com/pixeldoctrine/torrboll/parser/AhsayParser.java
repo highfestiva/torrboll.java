@@ -15,11 +15,8 @@ import java.util.List;
 @Component
 public class AhsayParser implements SupplierHtmlParser {
 
-    @Autowired
-    private EmailParser emailParser;
-
     @Override
-    public boolean match(String subject) {
+    public boolean match(String subject, Message msg) throws IOException, MessagingException {
         return subject.contains("Backup Samenvatting:");
     }
 
@@ -27,12 +24,12 @@ public class AhsayParser implements SupplierHtmlParser {
     public List<BackupResult> parse(Date date, String subject, Message msg) throws IOException, MessagingException {
         String[] subjectWords = subject.split("Backup Samenvatting:");
         subject = subjectWords[subjectWords.length-1].trim();
-        subjectWords = emailParser.splitSubject(subject);
+        subjectWords = EmailParser.splitSubject(subject);
         String[] words = subjectWords[0].split(" ");
         String job = words[words.length-1];
         String client = subjectWords[1];
         List<BackupResult> result = new ArrayList<>();
-        Element body = emailParser.getHtmlBody(subject, msg);
+        Element body = EmailParser.getHtmlBody(subject, msg);
         for (Element systemRow: body.select("table[width=100%]")) {
             Element td = systemRow.select("td").first();
             String system = td.text().trim();

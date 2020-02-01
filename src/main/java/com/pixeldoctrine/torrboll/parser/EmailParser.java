@@ -32,7 +32,7 @@ public class EmailParser {
             String subject = msg.getSubject();
             subject = subject.replaceAll("(\\(\\d+/\\d+/\\d+\\)|\\d+/\\d+/\\d+)", "").trim();
             for (SupplierHtmlParser parser: parsers) {
-                if (parser.match(subject)) {
+                if (parser.match(subject, msg)) {
                     return parser.parse(date, subject, msg);
                 }
             }
@@ -42,7 +42,7 @@ public class EmailParser {
         return new ArrayList<>();
     }
 
-    String[] splitSubject(String subject) {
+    static String[] splitSubject(String subject) {
         String splitStr = StringUtils.countOccurrencesOf(subject, "-")==2? "-" : " - ";
         String[] words = subject.split(splitStr);
         for (int i = 0; i < words.length; i++) {
@@ -59,7 +59,7 @@ public class EmailParser {
         return new String[] { job, client };
     }
 
-    Element getHtmlBody(String subject, Part part) throws IOException, MessagingException {
+    static Element getHtmlBody(String subject, Part part) throws IOException, MessagingException {
         String html = getHtml(part);
         if (html != null) {
             log.debug("{}", subject);
@@ -69,7 +69,7 @@ public class EmailParser {
         throw new MessagingException("No HTML body found");
     }
 
-    private static String getHtml(Part part) throws IOException, MessagingException {
+    static String getHtml(Part part) throws IOException, MessagingException {
         if (part.isMimeType("text/html")) {
             return (String) part.getContent();
         }
