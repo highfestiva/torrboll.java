@@ -32,7 +32,7 @@ public class BackupResult {
         Date now = getDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
-        cal.add(Calendar.DATE, -1);
+        cal.add(Calendar.HOUR, -21); // earlier than 21:00 means yesterday
         return cal.getTime();
     }
 

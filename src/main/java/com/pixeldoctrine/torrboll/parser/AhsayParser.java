@@ -15,14 +15,17 @@ import java.util.List;
 @Component
 public class AhsayParser implements SupplierHtmlParser {
 
+	private static String NL = "Backup Samenvatting:";
+	private static String EN = "Backup Summary:";
+
     @Override
     public boolean match(String subject, Message msg) throws IOException, MessagingException {
-        return subject.contains("Backup Samenvatting:");
+        return subject.contains(NL) || subject.contains(EN);
     }
 
     @Override
     public List<BackupResult> parse(Date date, String subject, Message msg) throws IOException, MessagingException {
-        String[] subjectWords = subject.split("Backup Samenvatting:");
+        String[] subjectWords = subject.contains(NL)? subject.split(NL) : subject.split(EN);
         subject = subjectWords[subjectWords.length-1].trim();
         subjectWords = EmailParser.splitSubject(subject);
         String[] words = subjectWords[0].split(" ");
