@@ -60,7 +60,12 @@ public class EmailParser {
     }
 
     static Element getHtmlBody(String subject, Part part) throws IOException, MessagingException {
-        String html = getHtml(part);
+		int[] skip = {0};
+		return getHtmlBodySkip(subject, part, skip);
+	}
+
+    static Element getHtmlBodySkip(String subject, Part part, int[] skip) throws IOException, MessagingException {
+        String html = getHtmlSkip(part, skip);
         if (html != null) {
             log.debug("{}", subject);
             Document doc = Jsoup.parse(html);
@@ -70,14 +75,22 @@ public class EmailParser {
     }
 
     static String getHtml(Part part) throws IOException, MessagingException {
+		int[] skip = {0};
+		return getHtmlSkip(part, skip);
+	}
+
+    static String getHtmlSkip(Part part, int[] skip) throws IOException, MessagingException {
         if (part.isMimeType("text/html")) {
-            return (String) part.getContent();
+			if (skip[0] == 0) {
+				return (String) part.getContent();
+			}
+			skip[0] -= 1;
         }
         if (part.isMimeType("multipart/*")) {
             Multipart multipart = (Multipart) part.getContent();
             for (int i = 0; i < multipart.getCount(); i++) {
                 Part subpart = multipart.getBodyPart(i);
-                String html = getHtml(subpart);
+                String html = getHtmlSkip(subpart, skip);
                 if (html != null) {
                     return html;
                 }
